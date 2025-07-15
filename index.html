@@ -1,3 +1,5 @@
+There were a few typos and CSS bugs in the code I provided earlier that prevented the bot from responding properly (e.g., the input field's `type` and `id` attributes were swapped/misnamed, causing JavaScript errors when trying to read the user's message; some invalid CSS properties like `display: rgba(...)` and `padding: transparent` broke the layout; and the message alignment needed explicit flexbox setup on the chat body). I've fixed those issues below—the bot should now respond to messages as intended (with keyword-based or random fabulous replies). Copy-paste this updated HTML into a file and open it in your browser to test.
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +54,9 @@
             flex: 1;
             padding: 15px;
             overflow-y: auto;
-            display: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
@@ -66,14 +70,12 @@
         .user-message {
             background: #FF69B4;
             align-self: flex-end;
-            margin-left: 20%;
         }
 
         .bot-message {
             background: #00FFFF;
             color: #000;
             align-self: flex-start;
-            margin-right: 20%;
         }
 
         .chat-input {
@@ -84,9 +86,9 @@
 
         .chat-input input {
             flex: 1;
-            padding: transparent;
+            padding: 10px;
             border: none;
-            background: none;
+            background: transparent;
             color: #fff;
             font-size: 16px;
             outline: none;
@@ -94,12 +96,10 @@
 
         .chat-input button {
             background: #FFD700;
-            border: 10px;
-            padding: none;
+            border: none;
+            color: #000;
+            padding: 10px 15px;
             border-radius: 15px;
-            color: #FF69B4;
-            background: #fff;
-            padding: 10px;
             cursor: pointer;
             font-size: 16px;
             transition: transform 0.3s;
@@ -128,10 +128,10 @@
     <div class="chat-container">
         <div class="chat-header">GayBot - Spill the Tea, Hunty! 💅🌈</div>
         <div class="chat-body" id="chatBody">
-            <div class="bot-message">Hey queen! I'm GayBot, your super fabulous chat buddy. What's on your mind, darling? 👑✨</div>
+            <div class="message bot-message">Hey queen! I'm GayBot, your super fabulous chat buddy. What's on your mind, darling? 👑✨</div>
         </div>
         <div class="chat-input">
-            <input type="userInput" id="Type your message..." placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
+            <input type="text" id="userInput" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
             <button onclick="sendMessage()">Send 💖</button>
         </div>
     </div>
@@ -151,15 +151,15 @@
         ];
 
         const keywords = {
-            'hello': 'Hey boo! How's your fabulous day going? 😍',
+            'hello': 'Hey boo! How\'s your fabulous day going? 😍',
             'hi': 'Hi gorgeous! Ready to chat gayly? 🌈',
             'bye': 'Bye darling! Stay fabulous! 💋',
             'love': 'Love you too, queen! Muah! 💖',
             'pride': 'Pride month is every month here! 🏳️‍🌈🎉',
             'gay': 'Gay as fuck, just like me! 😜',
-            'tea': 'Spill the tea, sis! I'm all ears! ☕',
+            'tea': 'Spill the tea, sis! I\'m all ears! ☕',
             'slay': 'Yas, slay all day! 👑',
-            'drag': 'Drag queens rule the world! Who's your fave? 👠',
+            'drag': 'Drag queens rule the world! Who\'s your fave? 👠',
             'rainbow': 'Rainbows everywhere! Taste the rainbow! 🌈🍭'
         };
 
