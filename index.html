@@ -1,0 +1,203 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GayBot - Your Fabulous Chat Companion! 🌈💖</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3, #FF69B4);
+            background-size: 600% 600%;
+            animation: rainbow 10s ease infinite;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .chat-container {
+            width: 400px;
+            height: 600px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(to right, #FF69B4, #FF1493);
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: rgba(255, 255, 255, 0.1);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: #FF69B4;
+            align-self: flex-end;
+            margin-left: 20%;
+        }
+
+        .bot-message {
+            background: #00FFFF;
+            color: #000;
+            align-self: flex-start;
+            margin-right: 20%;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: transparent;
+            border: none;
+            background: none;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: #FFD700;
+            border: 10px;
+            padding: none;
+            border-radius: 15px;
+            color: #FF69B4;
+            background: #fff;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Scrollbar styling */
+        .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-body::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .chat-body::-webkit-scrollbar-thumb {
+            background: #FF69B4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">GayBot - Spill the Tea, Hunty! 💅🌈</div>
+        <div class="chat-body" id="chatBody">
+            <div class="bot-message">Hey queen! I'm GayBot, your super fabulous chat buddy. What's on your mind, darling? 👑✨</div>
+        </div>
+        <div class="chat-input">
+            <input type="userInput" id="Type your message..." placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage();">
+            <button onclick="sendMessage()">Send 💖</button>
+        </div>
+    </div>
+
+    <script>
+        const responses = [
+            "Oh honey, that's fabulous! Tell me more! 💅",
+            "Slay queen! You're giving me life! 🌈",
+            "Tea! Spill it all, darling! ☕🏳️‍🌈",
+            "Yas! Work it! 👠✨",
+            "Gurl, you're too much! Love it! 💖",
+            "Fierce! Keep it coming! 👑",
+            "Rainbow vibes all the way! 🌟",
+            "That's so gay, I love it! 😘",
+            "Hunty, you're slaying the house down boots! 🏠👢",
+            "Pride every day, baby! 🏳️‍🌈💥"
+        ];
+
+        const keywords = {
+            'hello': 'Hey boo! How's your fabulous day going? 😍',
+            'hi': 'Hi gorgeous! Ready to chat gayly? 🌈',
+            'bye': 'Bye darling! Stay fabulous! 💋',
+            'love': 'Love you too, queen! Muah! 💖',
+            'pride': 'Pride month is every month here! 🏳️‍🌈🎉',
+            'gay': 'Gay as fuck, just like me! 😜',
+            'tea': 'Spill the tea, sis! I'm all ears! ☕',
+            'slay': 'Yas, slay all day! 👑',
+            'drag': 'Drag queens rule the world! Who's your fave? 👠',
+            'rainbow': 'Rainbows everywhere! Taste the rainbow! 🌈🍭'
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+            input.value = '';
+
+            // Simulate bot thinking
+            setTimeout(() => {
+                const botResponse = getBotResponse(message);
+                addMessage('bot', botResponse);
+            }, 1000);
+        }
+
+        function addMessage(sender, text) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            for (const key in keywords) {
+                if (lowerMessage.includes(key)) {
+                    return keywords[key];
+                }
+            }
+            // Random response if no keyword match
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+    </script>
+</body>
+</html>
+```
